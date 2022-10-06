@@ -13,15 +13,8 @@ class CategoriesRepository {
 
   private static INSTANCE: CategoriesRepository;
 
-  private constructor() {
+  constructor() {
     this.repository = getRepository(Category);
-  }
-
-  public static getInstance(): CategoriesRepository {
-    if (!CategoriesRepository.INSTANCE) {
-      CategoriesRepository.INSTANCE = new CategoriesRepository();
-    }
-    return CategoriesRepository.INSTANCE;
   }
 
   async create({ name, description }: ICreateCategoryDTO): Promise<void> {
