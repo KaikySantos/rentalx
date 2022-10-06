@@ -1,6 +1,7 @@
 import { getRepository, Repository } from "typeorm";
 
 import { Category } from "../../entities/Category";
+import { ICategoriesRepository } from "../ICategoriesRepository";
 
 // DTO => Data transfer object
 interface ICreateCategoryDTO {
@@ -8,10 +9,8 @@ interface ICreateCategoryDTO {
   description: string;
 }
 
-class CategoriesRepository {
+class CategoriesRepository implements ICategoriesRepository {
   private repository: Repository<Category>;
-
-  private static INSTANCE: CategoriesRepository;
 
   constructor() {
     this.repository = getRepository(Category);
