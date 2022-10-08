@@ -1,10 +1,9 @@
-/* eslint-disable prettier/prettier */
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { inject } from "tsyringe";
 
-import { AppError } from "../../../../errors/AppError";
-import { IUsersRepository } from "../../repositories/IUsersRepository";
+import { AppError } from "@errors/AppError";
+import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
 
 interface IRequest {
   email: string;
@@ -13,10 +12,10 @@ interface IRequest {
 
 interface IResponse {
   user: {
-    name: string,
-    email: string
-  },
-  token: string
+    name: string;
+    email: string;
+  };
+  token: string;
 }
 
 class AuthenticateUserUseCase {
@@ -40,19 +39,19 @@ class AuthenticateUserUseCase {
 
     const token = sign({}, "614cd0aeb44d4152eef631d838e34fb4", {
       subject: user.id,
-      expiresIn: "1d"
+      expiresIn: "1d",
     });
 
     const tokenReturn: IResponse = {
       token,
       user: {
         name: user.name,
-        email: user.email
-      }
-    }
+        email: user.email,
+      },
+    };
 
     return tokenReturn;
   }
 }
 
-export { AuthenticateUserUseCase }
+export { AuthenticateUserUseCase };

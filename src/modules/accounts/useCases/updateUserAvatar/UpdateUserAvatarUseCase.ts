@@ -1,8 +1,7 @@
-/* eslint-disable prettier/prettier */
 import { inject } from "tsyringe";
 
-import { deleteFile } from "../../../../utils/file";
-import { IUsersRepository } from "../../repositories/IUsersRepository";
+import { IUsersRepository } from "@modules/accounts/repositories/IUsersRepository";
+import { deleteFile } from "@utils/file";
 
 interface IRequest {
   user_id: string;
@@ -28,4 +27,4 @@ class UpdateUserAvatarUseCase {
   }
 }
 
-export { UpdateUserAvatarUseCase }
+export { UpdateUserAvatarUseCase };
