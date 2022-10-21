@@ -7,6 +7,7 @@ import "express-async-errors";
 import SwaggerUi from "swagger-ui-express";
 
 import upload from "@config/upload";
+import * as Sentry from "@sentry/node";
 import { AppError } from "@shared/errors/AppError";
 import rateLimiter from "@shared/infra/http/middlewares/rateLimiter";
 import createConnection from "@shared/infra/typeorm";
@@ -14,11 +15,17 @@ import createConnection from "@shared/infra/typeorm";
 import swaggerFile from "../../../swagger.json";
 import { router } from "./routes";
 
+import "@sentry/tracing";
+
 createConnection();
 
 const app = express();
 
 app.use(rateLimiter);
+
+Sentry.init({ dsn: process.env.SENTRY_DSN });
+
+app.use(Sentry.Handlers.requestHandler());
 
 app.use(express.json());
 
@@ -29,6 +36,8 @@ app.use("/cars", express.static(`${upload.tmpFolder}/cars`));
 
 app.use(cors());
 app.use(router);
+
+app.use(Sentry.Handlers.errorHandler());
 
 app.use(
   (err: Error, request: Request, response: Response, next: NextFunction) => {
